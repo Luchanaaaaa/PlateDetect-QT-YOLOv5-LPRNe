@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LOGINPAGE_H
+#define LOGINPAGE_H
 
 #include <QMainWindow>
 
@@ -20,4 +20,4 @@ public:
 private:
     Ui::MainWindow *ui;
 };
-#endif // MAINWINDOW_H
+#endif // LOGINPAGE_H

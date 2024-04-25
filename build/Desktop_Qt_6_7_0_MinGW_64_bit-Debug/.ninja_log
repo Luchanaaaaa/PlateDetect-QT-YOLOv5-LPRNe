@@ -1,10 +1,16 @@
 # ninja log v5
-3	130	0	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	b5b62c953aaed03d
-1	874	7355496258645680	project1_autogen/timestamp	fc49743937462cff
-1	874	7355496258645680	project1_autogen/mocs_compilation.cpp	fc49743937462cff
-1	874	7355496258645680	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/project1_autogen/timestamp	fc49743937462cff
-1	874	7355496258645680	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/project1_autogen/mocs_compilation.cpp	fc49743937462cff
-875	4643	7355496297345731	CMakeFiles/project1.dir/project1_autogen/mocs_compilation.cpp.obj	45b82b48036fcf39
-898	4766	7355496298595750	CMakeFiles/project1.dir/main.cpp.obj	757b4124b6152e2c
-886	4851	7355496299415712	CMakeFiles/project1.dir/mainwindow.cpp.obj	9ac2b62108afd63
-4852	5153	7355496302426056	project1.exe	9eb6e9b032bf42d4
+1	384	7356847935118976	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	b5b62c953aaed03d
+56	2731	7356847681344964	project1_autogen/timestamp	fc49743937462cff
+56	2731	7356847681344964	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/project1_autogen/timestamp	fc49743937462cff
+529	13742	7356846190505772	CMakeFiles/project1.dir/mainwindow.cpp.obj	9ac2b62108afd63
+56	2731	7356847681344964	project1_autogen/mocs_compilation.cpp	fc49743937462cff
+2772	12370	7356847780235122	CMakeFiles/project1.dir/main.cpp.obj	757b4124b6152e2c
+56	2731	7356847681344964	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/project1_autogen/mocs_compilation.cpp	fc49743937462cff
+2732	12011	7356847776402829	CMakeFiles/project1.dir/project1_autogen/mocs_compilation.cpp.obj	45b82b48036fcf39
+14651	15260	7356847809160596	project1.exe	fe0f9bba5f6fd332
+647	4307	7356847946451409	build.ninja	ce079f734280631c
+2752	14650	7356847803118710	CMakeFiles/project1.dir/LogInPage.cpp.obj	429671f2ee4e3bcf
+384	1452	7356847946451409	build.ninja	ce079f734280631c
+2	403	0	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	b5b62c953aaed03d
+3	790	0	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	b5b62c953aaed03d
+1	279	0	E:/Projects/others/Apr21/QtApplicaiton/project1/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	b5b62c953aaed03d

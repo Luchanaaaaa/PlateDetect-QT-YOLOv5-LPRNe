@@ -16,9 +16,9 @@ set(TS_FILES project1_en_US.ts)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        LogInPage.cpp
+        LogInPage.h
+        LogInPage.ui
         ${TS_FILES}
 )
 
