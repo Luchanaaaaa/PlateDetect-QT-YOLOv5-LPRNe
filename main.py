@@ -1,13 +1,13 @@
 import subprocess
 import sys
-
 from PySide6.QtGui import QPixmap, QImage, Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
 from LogInPage_UI import Ui_MainWindow as LogInPage_UI
 from SignUpPage_UI import Ui_MainWindow as SignUpPage_UI
 from OperationDB import checkUserExists, addNewUser, checkLogin, getStoredToken, generateAndStoreToken
 from SelectPage_UI import  Ui_MainWindow as SelectPage_UI
 from RecognitionWindow_UI import Ui_MainWindow as RecognitionWindow_UI
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -23,10 +23,11 @@ class MainWindow(QMainWindow):
     def initUi(self):
         self.currentUi.setupUi(self)
         self.setupConnections()
-        username, token = getStoredToken()
-        if username and token:
-            self.logInUi.UserNameInputBox.setPlainText(username)
-            self.logInUi.AutoLogInCheckBox.setChecked(True)
+        if self.currentUi == self.logInUi:
+            username, token = getStoredToken()
+            if username and token:
+                self.logInUi.UserNameInputBox.setPlainText(username)
+                self.logInUi.AutoLogInCheckBox.setChecked(True)
 
 
     def setupConnections(self):
@@ -36,19 +37,26 @@ class MainWindow(QMainWindow):
         elif self.currentUi == self.signUpUi:
             self.signUpUi.SignUpButton.clicked.connect(self.checkAndRegister)
         elif self.currentUi == self.selectUi:
-            self.selectUi.ImageDetectButton.clicked.connect(self.detectImage())
-            self.selectUi.VideoDetectButton.clicked.connect(self.detectVideo())
-            self.selectUi.RealTimeDetectButton.clicked.connect(self.detectRealTime())
+            self.selectUi.ImageDetectButton.clicked.connect(self.detectImage)
+            self.selectUi.VideoDetectButton.clicked.connect(self.detectVideo)
+            self.selectUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
         elif self.currentUi == self.recogUi:
             pass
 
     def detectImage(self):
+        img_path, _ = QFileDialog.getOpenFileName(self, '选择图片', '', '图片文件(*.jpg *.png *.jpeg *.bmp)')
+        if img_path:
+            self.switchToRecog()
+            pixmap = QPixmap(img_path)
+            self.recogUi.MainDisplay.setPixmap(pixmap.scaled(self.recogUi.MainDisplay.width(), self.recogUi.MainDisplay.height(), Qt.KeepAspectRatio))
         pass
 
     def detectVideo(self):
+        self.switchToRecog()
         pass
 
     def detectRealTime(self):
+        self.switchToRecog()
         pass
 
     def checkAndLogIn(self):

@@ -131,7 +131,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>resourse/VehicleLicense_SIXU_A00326.jpg</pixmap>
+     <pixmap>resourse/ExampleCar.jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -140,7 +140,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>950</x>
