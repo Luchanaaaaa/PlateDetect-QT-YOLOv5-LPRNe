@@ -7,6 +7,7 @@ from LogInPage_UI import Ui_MainWindow as LogInPage_UI
 from SignUpPage_UI import Ui_MainWindow as SignUpPage_UI
 from OperationDB import checkUserExists, addNewUser, checkLogin, getStoredToken, generateAndStoreToken
 from SelectPage_UI import  Ui_MainWindow as SelectPage_UI
+from RecognitionWindow_UI import Ui_MainWindow as RecognitionWindow_UI
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -15,6 +16,7 @@ class MainWindow(QMainWindow):
         self.signUpUi = SignUpPage_UI()
         self.logInUi = LogInPage_UI()
         self.selectUi = SelectPage_UI()
+        self.recogUi = RecognitionWindow_UI()
         self.currentUi = self.logInUi
         self.initUi()
 
@@ -37,6 +39,8 @@ class MainWindow(QMainWindow):
             self.selectUi.ImageDetectButton.clicked.connect(self.detectImage())
             self.selectUi.VideoDetectButton.clicked.connect(self.detectVideo())
             self.selectUi.RealTimeDetectButton.clicked.connect(self.detectRealTime())
+        elif self.currentUi == self.recogUi:
+            pass
 
     def detectImage(self):
         pass
@@ -91,6 +95,10 @@ class MainWindow(QMainWindow):
 
     def switchToSelect(self):
         self.currentUi = self.selectUi
+        self.initUi()
+
+    def switchToRecog(self):
+        self.currentUi = self.recogUi
         self.initUi()
 
 

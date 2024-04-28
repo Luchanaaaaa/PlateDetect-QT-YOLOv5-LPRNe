@@ -1,0 +1,10 @@
+path: E:/Projects/others/Apr21/VehicleLicenseRecognition/VehicleLicenseRecognition/datasets/VehicleLicense
+train: train/images/
+val: valid/images/
+test: test/images/
+nc: 4
+names:
+- License_Plate
+- cars
+- motorcyle
+- truck
