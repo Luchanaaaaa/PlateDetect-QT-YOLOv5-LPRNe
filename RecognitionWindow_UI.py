@@ -41,28 +41,28 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.RealTimeDetectButton = QPushButton(self.frame)
-        self.RealTimeDetectButton.setObjectName(u"RealTimeDetectButton")
-
-        self.verticalLayout.addWidget(self.RealTimeDetectButton)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer_2)
-
         self.ImageDetectButton = QPushButton(self.frame)
         self.ImageDetectButton.setObjectName(u"ImageDetectButton")
 
         self.verticalLayout.addWidget(self.ImageDetectButton)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout.addItem(self.verticalSpacer_3)
+        self.verticalLayout.addItem(self.verticalSpacer_2)
 
         self.VideoDetectButton = QPushButton(self.frame)
         self.VideoDetectButton.setObjectName(u"VideoDetectButton")
 
         self.verticalLayout.addWidget(self.VideoDetectButton)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_3)
+
+        self.RealTimeDetectButton = QPushButton(self.frame)
+        self.RealTimeDetectButton.setObjectName(u"RealTimeDetectButton")
+
+        self.verticalLayout.addWidget(self.RealTimeDetectButton)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -200,9 +200,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.RealTimeDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u6444\u50cf\u5934\u5b9e\u65f6\u68c0\u6d4b\u8f66\u724c", None))
         self.ImageDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u56fe\u7247\u8bc6\u522b\u8f66\u724c", None))
         self.VideoDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u89c6\u9891\u8bc6\u522b\u8f66\u724c", None))
+        self.RealTimeDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u6444\u50cf\u5934\u5b9e\u65f6\u68c0\u6d4b\u8f66\u724c", None))
         self.SaveResultButton.setText(QCoreApplication.translate("MainWindow", u"\u50a8\u5b58\u8bc6\u522b\u7ed3\u679c", None))
         self.SignOutButton.setText(QCoreApplication.translate("MainWindow", u"\u9000\u51fa\u767b\u5165", None))
         self.MainDisplay.setText("")
