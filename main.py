@@ -1,9 +1,6 @@
 import subprocess
 import sys
 import cv2
-import numpy as np
-import onnxruntime
-import torch
 from PySide6.QtGui import QPixmap, QImage, Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
 from LogInPage_UI import Ui_MainWindow as LogInPage_UI
@@ -82,6 +79,24 @@ class MainWindow(QMainWindow):
             Qt.KeepAspectRatio))
         self.recogUi.MainDisplay.show()
 
+    def show_zoomed_plate(self, image, bbox):
+        x1, y1, x2, y2 = map(int, bbox)
+        plate_image = image[y1:y2, x1:x2]
+
+        # 将裁剪的车牌图像转换为 QImage
+        plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2RGB)
+        height, width, channel = plate_image.shape
+        bytesPerLine = 3 * width
+        qImg_plate = QImage(plate_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
+
+        # 将 QImage 转换为 QPixmap 并展示在 ZoomDisplay QLabel 中
+        pixmap_plate = QPixmap.fromImage(qImg_plate)
+        self.recogUi.ZoomDisplay.setPixmap(pixmap_plate.scaled(
+            self.recogUi.ZoomDisplay.width(),
+            self.recogUi.ZoomDisplay.height(),
+            Qt.KeepAspectRatio))
+        self.recogUi.ZoomDisplay.show()
+
     def process_frame(self, image):
         # 执行推理
         dets = self.yolo_detector.detect(image)
@@ -92,6 +107,11 @@ class MainWindow(QMainWindow):
             print(f"Names: {self.yolo_detector.names}")
             cls_index = int(cls)
             label_name = MainWindow.get_key_from_value(self.yolo_detector.names, cls_index)
+            print("label_name = "+str(label_name))
+            ###### cut and display the detected plate ######
+            if label_name == 'plate':
+                self.show_zoomed_plate(image, xyxy)
+
             if label_name is not None:
                 label = f'{label_name} {conf:.2f}'
                 plot_one_box(xyxy, image, label=label, color=colors(cls_index, True), line_thickness=3)
