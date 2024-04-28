@@ -122,8 +122,39 @@ class MainWindow(QMainWindow):
 
 
     def detectVideo(self):
-        self.switchToRecog()
-        pass
+        if self.currentUi != self.recogUi:
+            self.switchToRecog()
+        video_path, _ = QFileDialog.getOpenFileName(self, '选择视频', '', '视频文件(*.mp4 *.avi)')
+        if video_path:
+            if self.currentUi != self.recogUi:
+                self.switchToRecog()
+
+            cap = cv2.VideoCapture(video_path)
+            if not cap.isOpened():
+                QMessageBox.warning(self, 'Warning', '无法打开视频文件')
+                return
+
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break  # 视频结束或读取错误
+
+                # 处理帧
+                processed_frame = self.process_frame(frame)
+
+                # 转换颜色空间以适应 QPixmap
+                processed_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
+                height, width, channel = processed_frame.shape
+                bytesPerLine = 3 * width
+                qImg = QImage(processed_frame.data, width, height, bytesPerLine, QImage.Format_RGB888)
+
+                # 通过信号发送处理过的 QImage
+                self.frame_processed.emit(qImg)
+
+                # 控制视频播放速度
+                cv2.waitKey(int(1000 / cap.get(cv2.CAP_PROP_FPS)))
+
+            cap.release()
 
     def detectRealTime(self):
         if self.currentUi != self.recogUi:
