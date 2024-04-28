@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         self.selectUi = SelectPage_UI()
         self.recogUi = RecognitionWindow_UI()
         self.currentUi = self.logInUi
+        self.isCaturing = False
         ####################################### Model & ML Process #######################################
         self.yolo_detector = YOLOv5Detector(weights='weights/YOLOv5/weight/best.pt', imgsz=640, conf_thres=0.5, iou_thres=0.5, device='cpu')
         ####################################### Model & ML Process #######################################
@@ -44,6 +45,7 @@ class MainWindow(QMainWindow):
             if username and token:
                 self.logInUi.UserNameInputBox.setPlainText(username)
                 self.logInUi.AutoLogInCheckBox.setChecked(True)
+
 
     def setupConnections(self):
         if self.currentUi == self.logInUi:
@@ -67,6 +69,9 @@ class MainWindow(QMainWindow):
             if value == val:
                 return key
         return None
+    def stopCapture(self):
+        self.isCapturing  = False
+
     @Slot(QImage)
     def updateMainDisplay(self, qImg):
         # 在 MainDisplay 上显示 QImage
@@ -95,6 +100,9 @@ class MainWindow(QMainWindow):
         return image
 
     def detectImage(self):
+        # Stop previous capture
+        self.stopCapture()
+
         img_path, _ = QFileDialog.getOpenFileName(self, '选择图片', '', '图片文件(*.jpg *.png *.jpeg *.bmp)')
         if img_path:
             if self.currentUi != self.recogUi:
@@ -122,8 +130,10 @@ class MainWindow(QMainWindow):
 
 
     def detectVideo(self):
-        if self.currentUi != self.recogUi:
-            self.switchToRecog()
+        # Stop previous capture  before starting a new one
+        self.stopCapture()
+        self.isCapturing = True
+
         video_path, _ = QFileDialog.getOpenFileName(self, '选择视频', '', '视频文件(*.mp4 *.avi)')
         if video_path:
             if self.currentUi != self.recogUi:
@@ -134,9 +144,10 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, 'Warning', '无法打开视频文件')
                 return
 
-            while True:
+            while self.isCapturing:
                 ret, frame = cap.read()
                 if not ret:
+                    self.stopCapture()
                     break  # 视频结束或读取错误
 
                 # 处理帧
@@ -157,6 +168,10 @@ class MainWindow(QMainWindow):
             cap.release()
 
     def detectRealTime(self):
+        # Stop previous capture before starting a new one
+        self.stopCapture()
+        self.isCapturing = True
+
         if self.currentUi != self.recogUi:
             self.switchToRecog()
         cap = cv2.VideoCapture(0)  # 打开摄像头
@@ -164,10 +179,11 @@ class MainWindow(QMainWindow):
             print("Error: Could not open video device.")
             return
 
-        while True:
+        while self.isCapturing:
             ret, frame = cap.read()
             if not ret:
                 print("Error: Could not read frame from video device.")
+                self.stopCapture()
                 break
 
             # 处理帧
@@ -184,6 +200,7 @@ class MainWindow(QMainWindow):
 
             # 按 'q' 退出循环
             if cv2.waitKey(1) & 0xFF == ord('q'):
+                self.stopCapture()
                 break
 
         cap.release()
