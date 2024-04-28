@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QMainWindow, QMenuBar, QPushButton, QSizePolicy,
-    QStatusBar, QVBoxLayout, QWidget)
+    QSpacerItem, QStatusBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -37,30 +37,54 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
+
         self.RealTimeDetectButton = QPushButton(self.frame)
         self.RealTimeDetectButton.setObjectName(u"RealTimeDetectButton")
 
         self.verticalLayout.addWidget(self.RealTimeDetectButton)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
 
         self.ImageDetectButton = QPushButton(self.frame)
         self.ImageDetectButton.setObjectName(u"ImageDetectButton")
 
         self.verticalLayout.addWidget(self.ImageDetectButton)
 
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_3)
+
         self.VideoDetectButton = QPushButton(self.frame)
         self.VideoDetectButton.setObjectName(u"VideoDetectButton")
 
         self.verticalLayout.addWidget(self.VideoDetectButton)
+
+        self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_4)
 
         self.SaveResultButton = QPushButton(self.frame)
         self.SaveResultButton.setObjectName(u"SaveResultButton")
 
         self.verticalLayout.addWidget(self.SaveResultButton)
 
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_5)
+
         self.SignOutButton = QPushButton(self.frame)
         self.SignOutButton.setObjectName(u"SignOutButton")
 
         self.verticalLayout.addWidget(self.SignOutButton)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_6)
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
