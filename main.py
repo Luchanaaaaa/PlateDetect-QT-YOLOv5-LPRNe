@@ -62,35 +62,36 @@ class MainWindow(QMainWindow):
                 return key
         return None
 
+    def process_frame(self, image):
+        # 执行推理
+        dets = self.yolo_detector.detect(image)
+        print("dets = "+str(dets))
+        # 绘制检测结果到图像上
+        for *xyxy, conf, cls in dets:
+            print(f"Class index (cls): {cls}")
+            print(f"Names: {self.yolo_detector.names}")
+            cls_index = int(cls)
+            label_name = MainWindow.get_key_from_value(self.yolo_detector.names, cls_index)
+            if label_name is not None:
+                label = f'{label_name} {conf:.2f}'
+                plot_one_box(xyxy, image, label=label, color=colors(cls_index, True), line_thickness=3)
+            else:
+                print(f"Class index {cls_index} not found in names dictionary.")
+        return image
+
     def detectImage(self):
         img_path, _ = QFileDialog.getOpenFileName(self, '选择图片', '', '图片文件(*.jpg *.png *.jpeg *.bmp)')
         if img_path:
             if self.currentUi != self.recogUi:
                 self.switchToRecog()
-
-            # 读取图像
             image = cv2.imread(img_path)
-            # 执行推理
-            dets = self.yolo_detector.detect(image)
-            print("dets = "+str(dets))
-            # 绘制检测结果到图像上
-            for *xyxy, conf, cls in dets:
-                print(f"Class index (cls): {cls}")
-                print(f"Names: {self.yolo_detector.names}")
-                cls_index = int(cls)
-                label_name = MainWindow.get_key_from_value(self.yolo_detector.names, cls_index)
-                if label_name is not None:
-                    label = f'{label_name} {conf:.2f}'
-                    plot_one_box(xyxy, image, label=label, color=colors(cls_index, True), line_thickness=3)
-                else:
-                    print(f"Class index {cls_index} not found in names dictionary.")
-
+            processed_image = self.process_frame(image)
 
             # 转换颜色空间以适应 QPixmap
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            height, width, channel = image.shape
+            processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
+            height, width, channel = processed_image.shape
             bytesPerLine = 3 * width
-            qImg = QImage(image.data, width, height, bytesPerLine, QImage.Format_RGB888)
+            qImg = QImage(processed_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
             pixmap = QPixmap.fromImage(qImg)
             ############### Debug PrintOut###
             if qImg.isNull():
