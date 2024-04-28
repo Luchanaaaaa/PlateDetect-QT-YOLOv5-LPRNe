@@ -13,9 +13,13 @@ from SelectPage_UI import Ui_MainWindow as SelectPage_UI
 from RecognitionWindow_UI import Ui_MainWindow as RecognitionWindow_UI
 from myDetector import YOLOv5Detector
 from utils.plots import colors, plot_one_box
+from PySide6.QtCore import Signal, Slot
 
 
 class MainWindow(QMainWindow):
+
+    # 从视频捕获循环中更新 GUI，可能会导致程序崩溃或不稳定, 所以创建一个信号来发送处理过的帧
+    frame_processed = Signal(QImage)
     def __init__(self):
         subprocess.run(['python', 'OperationDB.py'], check=True)
         super().__init__()
@@ -29,6 +33,8 @@ class MainWindow(QMainWindow):
         ####################################### Model & ML Process #######################################
 
         self.initUi()
+        self.frame_processed.connect(self.updateMainDisplay)
+
 
     def initUi(self):
         self.currentUi.setupUi(self)
@@ -61,6 +67,15 @@ class MainWindow(QMainWindow):
             if value == val:
                 return key
         return None
+    @Slot(QImage)
+    def updateMainDisplay(self, qImg):
+        # 在 MainDisplay 上显示 QImage
+        pixmap = QPixmap.fromImage(qImg)
+        self.recogUi.MainDisplay.setPixmap(pixmap.scaled(
+            self.recogUi.MainDisplay.width(),
+            self.recogUi.MainDisplay.height(),
+            Qt.KeepAspectRatio))
+        self.recogUi.MainDisplay.show()
 
     def process_frame(self, image):
         # 执行推理
@@ -111,8 +126,37 @@ class MainWindow(QMainWindow):
         pass
 
     def detectRealTime(self):
-        self.switchToRecog()
-        pass
+        if self.currentUi != self.recogUi:
+            self.switchToRecog()
+        cap = cv2.VideoCapture(0)  # 打开摄像头
+        if not cap.isOpened():
+            print("Error: Could not open video device.")
+            return
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                print("Error: Could not read frame from video device.")
+                break
+
+            # 处理帧
+            processed_frame = self.process_frame(frame)
+
+            # 转换颜色空间以适应 QPixmap
+            processed_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
+            height, width, channel = processed_frame.shape
+            bytesPerLine = 3 * width
+            qImg = QImage(processed_frame.data, width, height, bytesPerLine, QImage.Format_RGB888)
+
+            # 通过信号发送处理过的 QImage
+            self.frame_processed.emit(qImg)
+
+            # 按 'q' 退出循环
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
 
     def checkAndLogIn(self):
         username = self.logInUi.UserNameInputBox.toPlainText()
