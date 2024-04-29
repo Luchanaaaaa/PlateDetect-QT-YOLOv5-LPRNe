@@ -154,7 +154,7 @@ class ProfileModels:
         imgsz (int): Image size used in the models. Default is 640.
 
     Methods:
-        profile(): Profiles the models and prints the result.
+        profile(): Profiles the models and prints the results.
 
     Example:
         ```python

@@ -742,13 +742,13 @@ class TryExcept(contextlib.ContextDecorator):
 
 def threaded(func):
     """
-    Multi-threads a target function by default and returns the thread or function result.
+    Multi-threads a target function by default and returns the thread or function results.
 
     Use as @threaded decorator. The function runs in a separate thread unless 'threaded=False' is passed.
     """
 
     def wrapper(*args, **kwargs):
-        """Multi-threads a given function based on 'threaded' kwarg and returns the thread or function result."""
+        """Multi-threads a given function based on 'threaded' kwarg and returns the thread or function results."""
         if kwargs.pop("threaded", True):  # run in thread
             thread = threading.Thread(target=func, args=args, kwargs=kwargs, daemon=True)
             thread.start()

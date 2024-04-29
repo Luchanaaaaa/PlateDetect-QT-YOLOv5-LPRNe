@@ -102,7 +102,7 @@ class ClassificationValidator(BaseValidator):
         )
 
     def plot_predictions(self, batch, preds, ni):
-        """Plots predicted bounding boxes on input images and saves the result."""
+        """Plots predicted bounding boxes on input images and saves the results."""
         plot_images(
             batch["img"],
             batch_idx=torch.arange(len(batch["img"])),

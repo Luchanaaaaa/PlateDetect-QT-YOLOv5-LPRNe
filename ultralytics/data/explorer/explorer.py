@@ -146,8 +146,8 @@ class Explorer:
 
         Returns:
             (pyarrow.Table): An arrow table containing the results. Supports converting to:
-                - pandas dataframe: `result.to_pandas()`
-                - dict of lists: `result.to_pydict()`
+                - pandas dataframe: `results.to_pandas()`
+                - dict of lists: `results.to_pydict()`
 
         Example:
             ```python
@@ -174,7 +174,7 @@ class Explorer:
 
         Args:
             query (str): SQL query to run.
-            return_type (str): Type of the result to return. Can be either 'pandas' or 'arrow'. Defaults to 'pandas'.
+            return_type (str): Type of the results to return. Can be either 'pandas' or 'arrow'. Defaults to 'pandas'.
 
         Returns:
             (pyarrow.Table): An arrow table containing the results.
@@ -184,7 +184,7 @@ class Explorer:
             exp = Explorer()
             exp.create_embeddings_table()
             query = "SELECT * FROM 'table' WHERE labels LIKE '%person%'"
-            result = exp.sql_query(query)
+            results = exp.sql_query(query)
             ```
         """
         assert return_type in {
@@ -227,7 +227,7 @@ class Explorer:
             exp = Explorer()
             exp.create_embeddings_table()
             query = "SELECT * FROM 'table' WHERE labels LIKE '%person%'"
-            result = exp.plot_sql_query(query)
+            results = exp.plot_sql_query(query)
             ```
         """
         result = self.sql_query(query, return_type="arrow")
@@ -251,7 +251,7 @@ class Explorer:
             img (str or list): Path to the image or a list of paths to the images.
             idx (int or list): Index of the image in the table or a list of indexes.
             limit (int): Number of results to return. Defaults to 25.
-            return_type (str): Type of the result to return. Can be either 'pandas' or 'arrow'. Defaults to 'pandas'.
+            return_type (str): Type of the results to return. Can be either 'pandas' or 'arrow'. Defaults to 'pandas'.
 
         Returns:
             (pandas.DataFrame): A dataframe containing the results.
