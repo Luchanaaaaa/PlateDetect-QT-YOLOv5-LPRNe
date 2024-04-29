@@ -368,7 +368,7 @@ def plot_evolve(evolve_csv=Path('path/to/evolve.csv')):  # from utils.plots impo
     matplotlib.rc('font', **{'size': 8})
     for i, k in enumerate(keys[7:]):
         v = x[:, 7 + i]
-        mu = v[j]  # best single result
+        mu = v[j]  # best single results
         plt.subplot(6, 5, i + 1)
         plt.scatter(v, f, c=hist2d(v, f, 20), cmap='viridis', alpha=.8, edgecolors='none')
         plt.plot(mu, f.max(), 'k+', markersize=15)

@@ -129,7 +129,7 @@ def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default=weights, help='model.pt')
     parser.add_argument('--image_dir', type=str, default=image_dir, help='file/dir/URL/glob, 0 for webcam')
-    parser.add_argument('--out_dir', type=str, default=out_dir, help='save det result image')
+    parser.add_argument('--out_dir', type=str, default=out_dir, help='save det results image')
     parser.add_argument('--imgsz', '--img', '--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.2, help='NMS IoU threshold')

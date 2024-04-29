@@ -88,7 +88,7 @@ class OBBValidator(DetectionValidator):
         return predn
 
     def plot_predictions(self, batch, preds, ni):
-        """Plots predicted bounding boxes on input images and saves the result."""
+        """Plots predicted bounding boxes on input images and saves the results."""
         plot_images(
             batch["img"],
             *output_to_rotated_target(preds, max_det=self.args.max_det),
@@ -146,7 +146,7 @@ class OBBValidator(DetectionValidator):
 
                 with open(f'{pred_txt / f"Task1_{classname}"}.txt', "a") as f:
                     f.writelines(f"{image_id} {score} {p[0]} {p[1]} {p[2]} {p[3]} {p[4]} {p[5]} {p[6]} {p[7]}\n")
-            # Save merged results, this could result slightly lower map than using official merging script,
+            # Save merged results, this could results slightly lower map than using official merging script,
             # because of the probiou calculation.
             pred_merged_txt = self.save_dir / "predictions_merged_txt"  # predictions
             pred_merged_txt.mkdir(parents=True, exist_ok=True)

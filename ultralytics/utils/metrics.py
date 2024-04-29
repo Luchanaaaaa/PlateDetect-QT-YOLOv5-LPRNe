@@ -637,7 +637,7 @@ class Metric(SimpleClass):
         map75(): Mean AP at IoU threshold of 0.75 for all classes. Returns: Float.
         map(): Mean AP at IoU thresholds from 0.5 to 0.95 for all classes. Returns: Float.
         mean_results(): Mean of results, returns mp, mr, map50, map.
-        class_result(i): Class-aware result, returns p[i], r[i], ap50[i], ap[i].
+        class_result(i): Class-aware results, returns p[i], r[i], ap50[i], ap[i].
         maps(): mAP of each class. Returns: Array of mAP scores, shape: (nc,).
         fitness(): Model fitness as a weighted combination of metrics. Returns: Float.
         update(results): Update metric attributes with new evaluation results.
@@ -727,7 +727,7 @@ class Metric(SimpleClass):
         return [self.mp, self.mr, self.map50, self.map]
 
     def class_result(self, i):
-        """Class-aware result, return p[i], r[i], ap50[i], ap[i]."""
+        """Class-aware results, return p[i], r[i], ap50[i], ap[i]."""
         return self.p[i], self.r[i], self.ap50[i], self.ap[i]
 
     @property
@@ -855,7 +855,7 @@ class DetMetrics(SimpleClass):
         return self.box.mean_results()
 
     def class_result(self, i):
-        """Return the result of evaluating the performance of an object detection model on a specific class."""
+        """Return the results of evaluating the performance of an object detection model on a specific class."""
         return self.box.class_result(i)
 
     @property
@@ -1254,7 +1254,7 @@ class OBBMetrics(SimpleClass):
         return self.box.mean_results()
 
     def class_result(self, i):
-        """Return the result of evaluating the performance of an object detection model on a specific class."""
+        """Return the results of evaluating the performance of an object detection model on a specific class."""
         return self.box.class_result(i)
 
     @property

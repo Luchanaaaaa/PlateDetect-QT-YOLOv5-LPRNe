@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 import cv2
@@ -12,6 +13,9 @@ from myYOLODetector import YOLOv5Detector
 from myLPRNeDetector import Recognizer, PLATE_TABLE
 from utils.plots import colors, plot_one_box
 from PySide6.QtCore import Signal, Slot
+import csv
+from datetime import datetime
+
 
 
 
@@ -28,6 +32,9 @@ class MainWindow(QMainWindow):
         self.recogUi = RecognitionWindow_UI()
         self.currentUi = self.logInUi
         self.isCaturing = False
+        ##########data##########
+        self.data = []
+        self.isRecording = True
         ####################################### Model & ML Process #######################################
         self.yolo_detector = YOLOv5Detector(weights='weights/YOLOv5/weight/best.pt', imgsz=640, conf_thres=0.5, iou_thres=0.5, device='cpu')
         self.lprnet_detector = Recognizer(
@@ -40,7 +47,7 @@ class MainWindow(QMainWindow):
             export=False,  # 已经导出 ONNX，不需要再次导出
             device='cpu'  # 使用 CPU 进行推理
         )
-        ####################################### Model & ML Process #######################################
+        ######################################################################
 
         self.initUi()
         self.frame_processed.connect(self.updateMainDisplay)
@@ -70,10 +77,55 @@ class MainWindow(QMainWindow):
             self.recogUi.ImageDetectButton.clicked.connect(self.detectImage)
             self.recogUi.VideoDetectButton.clicked.connect(self.detectVideo)
             self.recogUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
+            self.recogUi.SaveResultButton.clicked.connect(self.saveButtonClicked)
 
+
+    #################### Record Data ####################
+
+    def saveButtonClicked(self):
+        if self.recogUi.SaveResultButton.text() == "开始记录数据":
+            self.recogUi.SaveResultButton.setText("储存识别结果")
+            self.start_recording_data()
+        else:
+            self.recogUi.SaveResultButton.setText("开始记录数据")
+            self.save_data_to_csv()
+
+    def start_recording_data(self):
+        # 开始记录数据
+        self.recording = True
+        self.data = []  # 清空之前的数据
+
+    def record_data(self, filename, bbox, confidence, plate_text):
+        # 如果正在记录，将数据添加到列表
+        if self.isRecording:
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            self.data.append((filename, timestamp, bbox, confidence, plate_text))
+
+
+    def save_data_to_csv(self):
+        # 结束记录数据并保存到CSV
+        self.recording = False
+        directory = 'results'
+        date_str = datetime.now().strftime('%Y-%m-%d')
+        filename = f'recognition_results_{date_str}.csv'  # 设置文件名，加上今天的日期
+        path = os.path.join(directory, filename)
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            print(f"目录 {directory} 不存在，已创建。")
+
+        # 检查是否有数据需要保存
+        if self.data:
+            with open(path, 'a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(self.data)
+            print("Data saved to CSV on" + str(path))
+        else:
+            print("No data to save.")
+    #####################################################
 
     ######################### LPRNe： Zoomed Plate Detect & Display #########################
-    def show_zoomed_plate_and_recognize(self, image, bbox):
+    def show_zoomed_plate_and_recognize(self, image, bbox, filename, confidence):
         x1, y1, x2, y2 = map(int, bbox)
         plate_image = image[y1:y2, x1:x2]
 
@@ -100,8 +152,11 @@ class MainWindow(QMainWindow):
         # 打印识别结果
         print("识别的车牌号码是: ", recognized_plate)
 
-        # 如果需要在 GUI 上显示识别结果，可以更新一个 QLabel
+
         self.recogUi.label_plate_str.setText(recognized_plate)
+        if self.isRecording:
+            self.record_data(filename, bbox, confidence, recognized_plate)
+
 
     #################################################################################
 
@@ -125,11 +180,12 @@ class MainWindow(QMainWindow):
             if value == val:
                 return key
         return None
-    def process_frame(self, image):
+    def process_frame(self, image, filename):
         # 执行推理
         dets = self.yolo_detector.detect(image)
         print("dets = "+str(dets))
         # 绘制检测结果到图像上
+        # cls: class index
         for *xyxy, conf, cls in dets:
             print(f"Class index (cls): {cls}")
             print(f"Names: {self.yolo_detector.names}")
@@ -137,8 +193,9 @@ class MainWindow(QMainWindow):
             label_name = MainWindow.get_key_from_value(self.yolo_detector.names, cls_index)
             print("label_name = "+str(label_name))
             ###### cut and display the detected plate ######
+
             if label_name == 'plate':
-                self.show_zoomed_plate_and_recognize(image, xyxy)
+                self.show_zoomed_plate_and_recognize(image, xyxy, filename,conf)
 
             if label_name is not None:
                 label = f'{label_name} {conf:.2f}'
@@ -175,7 +232,7 @@ class MainWindow(QMainWindow):
                     break  # 视频结束或读取错误
 
                 # 处理帧
-                processed_frame = self.process_frame(frame)
+                processed_frame = self.process_frame(frame, video_path)
 
                 # 转换颜色空间以适应 QPixmap
                 processed_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
@@ -211,7 +268,7 @@ class MainWindow(QMainWindow):
                 break
 
             # 处理帧
-            processed_frame = self.process_frame(frame)
+            processed_frame = self.process_frame(frame, 'Webcam')
 
             # 转换颜色空间以适应 QPixmap
             processed_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
@@ -239,7 +296,7 @@ class MainWindow(QMainWindow):
             if self.currentUi != self.recogUi:
                 self.switchToRecog()
             image = cv2.imread(img_path)
-            processed_image = self.process_frame(image)
+            processed_image = self.process_frame(image, img_path)
 
             # 转换颜色空间以适应 QPixmap
             processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)

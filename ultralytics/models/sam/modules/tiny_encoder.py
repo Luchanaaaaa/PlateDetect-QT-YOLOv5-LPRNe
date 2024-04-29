@@ -117,7 +117,7 @@ class PatchMerging(nn.Module):
         self.conv3 = Conv2d_BN(out_dim, out_dim, 1, 1, 0)
 
     def forward(self, x):
-        """Applies forward pass on the input utilizing convolution and activation layers, and returns the result."""
+        """Applies forward pass on the input utilizing convolution and activation layers, and returns the results."""
         if x.ndim == 3:
             H, W = self.input_resolution
             B = len(x)

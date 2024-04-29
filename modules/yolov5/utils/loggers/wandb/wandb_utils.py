@@ -428,7 +428,7 @@ class WandbLogger():
 
     def val_one_image(self, pred, predn, path, names, im):
         """
-        Log validation data for one image. updates the result Table if validation dataset is uploaded and log bbox media panel
+        Log validation data for one image. updates the results Table if validation dataset is uploaded and log bbox media panel
         
         arguments:
         pred (list): list of scaled predictions in the format - [xmin, ymin, xmax, ymax, confidence, class]
@@ -464,7 +464,7 @@ class WandbLogger():
         commit the log_dict, model artifacts and Tables to W&B and flush the log_dict.
         
         arguments:
-        best_result (boolean): Boolean representing if the result of this evaluation is best or not
+        best_result (boolean): Boolean representing if the results of this evaluation is best or not
         """
         if self.wandb_run:
             with all_logging_disabled():
@@ -474,7 +474,7 @@ class WandbLogger():
                 self.log_dict = {}
                 self.bbox_media_panel_images = []
             if self.result_artifact:
-                self.result_artifact.add(self.result_table, 'result')
+                self.result_artifact.add(self.result_table, 'results')
                 wandb.log_artifact(self.result_artifact, aliases=['latest', 'last', 'epoch ' + str(self.current_epoch),
                                                                   ('best' if best_result else '')])
 

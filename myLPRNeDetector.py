@@ -248,13 +248,13 @@ def get_argparse():
     # net_type = "PlateNet"
     model_file = 'data/weight/CRNN_Perspective_20230113174750/model/best_model_146_0.9343.pth'
     net_type = "CRNN"
-    out_dir = "output/test-result"  # 保存检测结果
+    out_dir = "output/test-results"  # 保存检测结果
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_file', type=str, default=model_file, help='path/to/model.pth')
     parser.add_argument('--net_type', type=str, default=net_type, help='set model type')
     parser.add_argument('--video_file', type=str, default=video_file, help='camera id or video file')
     parser.add_argument('--image_dir', type=str, default=image_dir, help='path/to/image-dir')
-    parser.add_argument('--out_dir', type=str, default=out_dir, help='save result image directory')
+    parser.add_argument('--out_dir', type=str, default=out_dir, help='save results image directory')
     parser.add_argument('--use_detector', action='store_true', help='whether to detect plate', default=True)
     parser.add_argument('--export', action='store_true', help='whether to export ONNX', default=True)
     cfg = parser.parse_args()
@@ -267,7 +267,7 @@ if __name__ == '__main__':
     if isinstance(opt.video_file, str) or isinstance(opt.video_file, int):
         opt.video_file = str(opt.video_file)
         if len(opt.video_file) == 1: opt.video_file = int(opt.video_file)
-        save_video = os.path.join(opt.out_dir, "result.avi") if opt.out_dir else None
+        save_video = os.path.join(opt.out_dir, "results.avi") if opt.out_dir else None
         d.start_capture(opt.video_file, save_video, detect_freq=1, vis=True)
     else:
         d.detect_image_dir(opt.image_dir, opt.out_dir, vis=True)

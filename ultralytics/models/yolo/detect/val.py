@@ -239,7 +239,7 @@ class DetectionValidator(BaseValidator):
         )
 
     def plot_predictions(self, batch, preds, ni):
-        """Plots predicted bounding boxes on input images and saves the result."""
+        """Plots predicted bounding boxes on input images and saves the results."""
         plot_images(
             batch["img"],
             *output_to_target(preds, max_det=self.args.max_det),
