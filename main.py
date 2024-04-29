@@ -81,6 +81,7 @@ class MainWindow(QMainWindow):
             self.recogUi.VideoDetectButton.clicked.connect(self.detectVideo)
             self.recogUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
             self.recogUi.SaveResultButton.clicked.connect(self.saveButtonClicked)
+            self.recogUi.SignOutButton.clicked.connect(self.switchToLogIn)
     ############Upate Table##########
     def add_row_to_table(self, data):
         filename, timestamp, bbox, confidence, plate_text = data
