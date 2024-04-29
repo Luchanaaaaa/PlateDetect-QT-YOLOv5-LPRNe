@@ -164,14 +164,14 @@
       <height>65</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_5"/>
+    <layout class="QVBoxLayout" name="TitleLayout"/>
    </widget>
    <widget class="QLabel" name="MainDisplay">
     <property name="geometry">
      <rect>
       <x>180</x>
       <y>90</y>
-      <width>761</width>
+      <width>731</width>
       <height>471</height>
      </rect>
     </property>
@@ -221,9 +221,9 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>910</x>
       <y>90</y>
-      <width>291</width>
+      <width>331</width>
       <height>471</height>
      </rect>
     </property>
@@ -305,45 +305,6 @@
          </property>
          <property name="text">
           <string>B 126 NTB</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_char_2">
-         <property name="font">
-          <font>
-           <family>华文仿宋</family>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;车牌颜色&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_plate_str_2">
-         <property name="font">
-          <font>
-           <family>SimSun</family>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(255, 0, 0);</string>
-         </property>
-         <property name="text">
-          <string>黑色</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

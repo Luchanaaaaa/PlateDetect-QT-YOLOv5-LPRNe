@@ -92,12 +92,12 @@ class Ui_MainWindow(object):
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(180, 10, 1061, 65))
-        self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.TitleLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.TitleLayout.setObjectName(u"TitleLayout")
+        self.TitleLayout.setContentsMargins(0, 0, 0, 0)
         self.MainDisplay = QLabel(self.centralwidget)
         self.MainDisplay.setObjectName(u"MainDisplay")
-        self.MainDisplay.setGeometry(QRect(180, 90, 761, 471))
+        self.MainDisplay.setGeometry(QRect(180, 90, 731, 471))
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -116,7 +116,7 @@ class Ui_MainWindow(object):
         self.MainDisplay.setAlignment(Qt.AlignCenter)
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(950, 90, 291, 471))
+        self.layoutWidget.setGeometry(QRect(910, 90, 331, 471))
         self.verticalLayout_8 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
@@ -164,26 +164,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addLayout(self.horizontalLayout)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label_char_2 = QLabel(self.layoutWidget)
-        self.label_char_2.setObjectName(u"label_char_2")
-        self.label_char_2.setFont(font1)
-        self.label_char_2.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_2.addWidget(self.label_char_2)
-
-        self.label_plate_str_2 = QLabel(self.layoutWidget)
-        self.label_plate_str_2.setObjectName(u"label_plate_str_2")
-        self.label_plate_str_2.setFont(font2)
-        self.label_plate_str_2.setStyleSheet(u"color: rgb(255, 0, 0);")
-        self.label_plate_str_2.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_2.addWidget(self.label_plate_str_2)
-
-
-        self.verticalLayout_8.addLayout(self.horizontalLayout_2)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -209,7 +189,5 @@ class Ui_MainWindow(object):
         self.ZoomDisplay.setText("")
         self.label_char.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u8bc6\u522b\u8f66\u724c\uff1a</span></p></body></html>", None))
         self.label_plate_str.setText(QCoreApplication.translate("MainWindow", u"B 126 NTB", None))
-        self.label_char_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u8f66\u724c\u989c\u8272</span></p></body></html>", None))
-        self.label_plate_str_2.setText(QCoreApplication.translate("MainWindow", u"\u9ed1\u8272", None))
     # retranslateUi
 
