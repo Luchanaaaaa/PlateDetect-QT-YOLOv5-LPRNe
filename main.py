@@ -98,8 +98,11 @@ class MainWindow(QMainWindow):
     def record_data(self, filename, bbox, confidence, plate_text):
         # 如果正在记录，将数据添加到列表
         if self.isRecording:
+            # 将bbox和confidence转换为标准Python数据类型
+            bbox = [int(coord) for coord in bbox]  # 如果bbox是tensor，确保转换为int
+            confidence = float(confidence)  # 确保confidence是float
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            self.data.append((filename, timestamp, bbox, confidence, plate_text))
+            self.data.append((filename, timestamp, *bbox, confidence, plate_text))
 
 
     def save_data_to_csv(self):
