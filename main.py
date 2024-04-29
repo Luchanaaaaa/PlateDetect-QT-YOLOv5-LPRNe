@@ -8,9 +8,11 @@ from SignUpPage_UI import Ui_MainWindow as SignUpPage_UI
 from OperationDB import checkUserExists, addNewUser, checkLogin, getStoredToken, generateAndStoreToken
 from SelectPage_UI import Ui_MainWindow as SelectPage_UI
 from RecognitionWindow_UI import Ui_MainWindow as RecognitionWindow_UI
-from myDetector import YOLOv5Detector
+from myYOLODetector import YOLOv5Detector
+from myLPRNeDetector import Recognizer, PLATE_TABLE
 from utils.plots import colors, plot_one_box
 from PySide6.QtCore import Signal, Slot
+
 
 
 class MainWindow(QMainWindow):
@@ -28,6 +30,16 @@ class MainWindow(QMainWindow):
         self.isCaturing = False
         ####################################### Model & ML Process #######################################
         self.yolo_detector = YOLOv5Detector(weights='weights/YOLOv5/weight/best.pt', imgsz=640, conf_thres=0.5, iou_thres=0.5, device='cpu')
+        self.lprnet_detector = Recognizer(
+            model_file='weights/LPRnet/best_model_011_0.9393.pth',
+            net_type='LPRNet',  # 模型类型
+            class_name='',  # 车牌字符表
+            use_detector=False,  # 您已经使用 YOLO 进行车牌检测
+            input_size=(94, 24),  # 模型输入尺寸
+            alignment=True,  # 是否进行车牌矫正
+            export=False,  # 已经导出 ONNX，不需要再次导出
+            device='cpu'  # 使用 CPU 进行推理
+        )
         ####################################### Model & ML Process #######################################
 
         self.initUi()
@@ -58,7 +70,6 @@ class MainWindow(QMainWindow):
             self.recogUi.ImageDetectButton.clicked.connect(self.detectImage)
             self.recogUi.VideoDetectButton.clicked.connect(self.detectVideo)
             self.recogUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
-            pass
 
     @staticmethod
     def get_key_from_value(d, val):
@@ -79,7 +90,8 @@ class MainWindow(QMainWindow):
             Qt.KeepAspectRatio))
         self.recogUi.MainDisplay.show()
 
-    def show_zoomed_plate(self, image, bbox):
+    ######################### Zoomed Plate Detect & Display #########################
+    def show_zoomed_plate_and_recognize(self, image, bbox):
         x1, y1, x2, y2 = map(int, bbox)
         plate_image = image[y1:y2, x1:x2]
 
@@ -97,6 +109,21 @@ class MainWindow(QMainWindow):
             Qt.KeepAspectRatio))
         self.recogUi.ZoomDisplay.show()
 
+        plate_image = image[y1:y2, x1:x2]
+
+        # 使用 LPRNet 进行车牌识别
+        recognition_result = self.lprnet_detector.plates_recognize(plate_image)
+        recognized_plate = recognition_result['plates'][0] if recognition_result['plates'] else "未识别"
+
+        # 打印识别结果
+        print("识别的车牌号码是: ", recognized_plate)
+
+        # 如果需要在 GUI 上显示识别结果，可以更新一个 QLabel
+        self.recogUi.label_plate_str.setText(recognized_plate)
+
+
+
+    #################################################################################
     def process_frame(self, image):
         # 执行推理
         dets = self.yolo_detector.detect(image)
@@ -110,7 +137,7 @@ class MainWindow(QMainWindow):
             print("label_name = "+str(label_name))
             ###### cut and display the detected plate ######
             if label_name == 'plate':
-                self.show_zoomed_plate(image, xyxy)
+                self.show_zoomed_plate_and_recognize(image, xyxy)
 
             if label_name is not None:
                 label = f'{label_name} {conf:.2f}'
@@ -226,6 +253,7 @@ class MainWindow(QMainWindow):
         cap.release()
         cv2.destroyAllWindows()
 
+    #################### LogIn & SignUp  ####################
     def checkAndLogIn(self):
         username = self.logInUi.UserNameInputBox.toPlainText()
         password = self.logInUi.PassWordInputBox.toPlainText()
@@ -260,6 +288,9 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, 'Info', '注册成功')
         self.switchToLogIn()
 
+    ####################################################
+
+    #################### Switch UI ####################
     def switchToSignIn(self, event):
         self.currentUi = self.signUpUi
         self.initUi()
@@ -275,6 +306,7 @@ class MainWindow(QMainWindow):
     def switchToRecog(self):
         self.currentUi = self.recogUi
         self.initUi()
+    ####################################################
 
 
 if __name__ == '__main__':
