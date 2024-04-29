@@ -3,7 +3,7 @@ import subprocess
 import sys
 import cv2
 from PySide6.QtGui import QPixmap, QImage, Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QTabWidget, QTableWidgetItem
 from LogInPage_UI import Ui_MainWindow as LogInPage_UI
 from SignUpPage_UI import Ui_MainWindow as SignUpPage_UI
 from OperationDB import checkUserExists, addNewUser, checkLogin, getStoredToken, generateAndStoreToken
@@ -23,9 +23,12 @@ class MainWindow(QMainWindow):
 
     # 从视频捕获循环中更新 GUI，可能会导致程序崩溃或不稳定, 所以创建一个信号来发送处理过的帧
     frame_processed = Signal(QImage)
+    update_table_signal = Signal(tuple)
+
     def __init__(self):
         subprocess.run(['python', 'OperationDB.py'], check=True)
         super().__init__()
+        self.update_table_signal.connect(self.add_row_to_table)
         self.signUpUi = SignUpPage_UI()
         self.logInUi = LogInPage_UI()
         self.selectUi = SelectPage_UI()
@@ -78,10 +81,19 @@ class MainWindow(QMainWindow):
             self.recogUi.VideoDetectButton.clicked.connect(self.detectVideo)
             self.recogUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
             self.recogUi.SaveResultButton.clicked.connect(self.saveButtonClicked)
-
-
-    #################### Record Data ####################
-
+    ############Upate Table##########
+    def add_row_to_table(self, data):
+        filename, timestamp, bbox, confidence, plate_text = data
+        row_count = self.recogUi.DataTable.rowCount()
+        self.recogUi.DataTable.insertRow(row_count)
+        self.recogUi.DataTable.setItem(row_count, 0, QTableWidgetItem(filename))
+        self.recogUi.DataTable.setItem(row_count, 1, QTableWidgetItem(timestamp))
+        self.recogUi.DataTable.setItem(row_count, 2, QTableWidgetItem(str(bbox)))  # 转换bbox为字符串
+        self.recogUi.DataTable.setItem(row_count, 3, QTableWidgetItem(str(confidence)))
+        self.recogUi.DataTable.setItem(row_count, 4, QTableWidgetItem(plate_text))
+        # 自动滚动到最新的行
+        self.recogUi.DataTable.scrollToBottom()
+    #################################
     def saveButtonClicked(self):
         if self.recogUi.SaveResultButton.text() == "开始记录数据":
             self.recogUi.SaveResultButton.setText("储存识别结果")
@@ -103,6 +115,7 @@ class MainWindow(QMainWindow):
             confidence = float(confidence)  # 确保confidence是float
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             self.data.append((filename, timestamp, *bbox, confidence, plate_text))
+            self.update_table_signal.emit((filename, timestamp, bbox, confidence, plate_text))
 
 
     def save_data_to_csv(self):
@@ -222,7 +235,7 @@ class MainWindow(QMainWindow):
         if video_path:
             if self.currentUi != self.recogUi:
                 self.switchToRecog()
-
+            self.recogUi.DataTable.setRowCount(0)
             cap = cv2.VideoCapture(video_path)
             if not cap.isOpened():
                 QMessageBox.warning(self, 'Warning', '无法打开视频文件')
@@ -258,6 +271,8 @@ class MainWindow(QMainWindow):
 
         if self.currentUi != self.recogUi:
             self.switchToRecog()
+        self.recogUi.DataTable.setRowCount(0)
+
         cap = cv2.VideoCapture(0)  # 打开摄像头
         if not cap.isOpened():
             print("Error: Could not open video device.")
@@ -298,6 +313,8 @@ class MainWindow(QMainWindow):
         if img_path:
             if self.currentUi != self.recogUi:
                 self.switchToRecog()
+            self.recogUi.DataTable.setRowCount(0)
+
             image = cv2.imread(img_path)
             processed_image = self.process_frame(image, img_path)
 
