@@ -71,26 +71,8 @@ class MainWindow(QMainWindow):
             self.recogUi.VideoDetectButton.clicked.connect(self.detectVideo)
             self.recogUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
 
-    @staticmethod
-    def get_key_from_value(d, val):
-        for key, value in d.items():
-            if value == val:
-                return key
-        return None
-    def stopCapture(self):
-        self.isCapturing  = False
 
-    @Slot(QImage)
-    def updateMainDisplay(self, qImg):
-        # 在 MainDisplay 上显示 QImage
-        pixmap = QPixmap.fromImage(qImg)
-        self.recogUi.MainDisplay.setPixmap(pixmap.scaled(
-            self.recogUi.MainDisplay.width(),
-            self.recogUi.MainDisplay.height(),
-            Qt.KeepAspectRatio))
-        self.recogUi.MainDisplay.show()
-
-    ######################### Zoomed Plate Detect & Display #########################
+    ######################### LPRNe： Zoomed Plate Detect & Display #########################
     def show_zoomed_plate_and_recognize(self, image, bbox):
         x1, y1, x2, y2 = map(int, bbox)
         plate_image = image[y1:y2, x1:x2]
@@ -121,9 +103,28 @@ class MainWindow(QMainWindow):
         # 如果需要在 GUI 上显示识别结果，可以更新一个 QLabel
         self.recogUi.label_plate_str.setText(recognized_plate)
 
-
-
     #################################################################################
+
+    ############################## YOLOv5: Detect & Display ###########################
+    def stopCapture(self):
+        self.isCapturing  = False
+
+    @Slot(QImage)
+    def updateMainDisplay(self, qImg):
+        # 在 MainDisplay 上显示 QImage
+        pixmap = QPixmap.fromImage(qImg)
+        self.recogUi.MainDisplay.setPixmap(pixmap.scaled(
+            self.recogUi.MainDisplay.width(),
+            self.recogUi.MainDisplay.height(),
+            Qt.KeepAspectRatio))
+        self.recogUi.MainDisplay.show()
+
+    @staticmethod
+    def get_key_from_value(d, val):
+        for key, value in d.items():
+            if value == val:
+                return key
+        return None
     def process_frame(self, image):
         # 执行推理
         dets = self.yolo_detector.detect(image)
@@ -146,36 +147,12 @@ class MainWindow(QMainWindow):
                 print(f"Class index {cls_index} not found in names dictionary.")
         return image
 
-    def detectImage(self):
-        # Stop previous capture
-        self.stopCapture()
-
-        img_path, _ = QFileDialog.getOpenFileName(self, '选择图片', '', '图片文件(*.jpg *.png *.jpeg *.bmp)')
-        if img_path:
-            if self.currentUi != self.recogUi:
-                self.switchToRecog()
-            image = cv2.imread(img_path)
-            processed_image = self.process_frame(image)
-
-            # 转换颜色空间以适应 QPixmap
-            processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
-            height, width, channel = processed_image.shape
-            bytesPerLine = 3 * width
-            qImg = QImage(processed_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
-            pixmap = QPixmap.fromImage(qImg)
-            ############### Debug PrintOut###
-            if qImg.isNull():
-                print("Failed to create QImage from image data.")
-            if pixmap.isNull():
-                print("Failed to create QPixmap from QImage.")
-            ################################
-            self.recogUi.MainDisplay.setPixmap(
-                pixmap.scaled(self.recogUi.MainDisplay.width(), self.recogUi.MainDisplay.height(), Qt.KeepAspectRatio))
-            self.recogUi.MainDisplay.show()
-            # pixmap = QPixmap(img_path)
-            # self.recogUi.MainDisplay.setPixmap(pixmap.scaled(self.recogUi.MainDisplay.width(), self.recogUi.MainDisplay.height(), Qt.KeepAspectRatio))
 
 
+    #################################################################################
+
+
+    ############################## Picture /Video / Webcam Capture & Display ###########################
     def detectVideo(self):
         # Stop previous capture  before starting a new one
         self.stopCapture()
@@ -252,6 +229,35 @@ class MainWindow(QMainWindow):
 
         cap.release()
         cv2.destroyAllWindows()
+
+    def detectImage(self):
+        # Stop previous capture
+        self.stopCapture()
+
+        img_path, _ = QFileDialog.getOpenFileName(self, '选择图片', '', '图片文件(*.jpg *.png *.jpeg *.bmp)')
+        if img_path:
+            if self.currentUi != self.recogUi:
+                self.switchToRecog()
+            image = cv2.imread(img_path)
+            processed_image = self.process_frame(image)
+
+            # 转换颜色空间以适应 QPixmap
+            processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
+            height, width, channel = processed_image.shape
+            bytesPerLine = 3 * width
+            qImg = QImage(processed_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
+            pixmap = QPixmap.fromImage(qImg)
+            ############### Debug PrintOut###
+            if qImg.isNull():
+                print("Failed to create QImage from image data.")
+            if pixmap.isNull():
+                print("Failed to create QPixmap from QImage.")
+            ################################
+            self.recogUi.MainDisplay.setPixmap(
+                pixmap.scaled(self.recogUi.MainDisplay.width(), self.recogUi.MainDisplay.height(), Qt.KeepAspectRatio))
+            self.recogUi.MainDisplay.show()
+            # pixmap = QPixmap(img_path)
+            # self.recogUi.MainDisplay.setPixmap(pixmap.scaled(self.recogUi.MainDisplay.width(), self.recogUi.MainDisplay.height(), Qt.KeepAspectRatio))
 
     #################### LogIn & SignUp  ####################
     def checkAndLogIn(self):
