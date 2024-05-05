@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>登入界面</string>
+   <string>LoginPage</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -28,7 +28,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>用户名</string>
+     <string>Username</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="PassWordInputBox">
@@ -41,7 +41,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>密码</string>
+     <string>Password</string>
     </property>
    </widget>
    <widget class="QPushButton" name="LogInButton">
@@ -54,7 +54,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>登入</string>
+     <string>Login</string>
     </property>
    </widget>
    <widget class="QLabel" name="BackGroundLabel_2">
@@ -93,7 +93,7 @@ border-image: url(:/login/icons/sign.png);
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>resourse/SignUpLogIn.png</pixmap>
+     <pixmap>resourse/background.webp</pixmap>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -112,14 +112,14 @@ border-image: url(:/login/icons/sign.png);
      <item>
       <widget class="QCheckBox" name="AutoLogInCheckBox">
        <property name="text">
-        <string>记住用户名</string>
+        <string>Remember username</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="SignUpLinkLabel">
        <property name="text">
-        <string>注册账号</string>
+        <string>Register account</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

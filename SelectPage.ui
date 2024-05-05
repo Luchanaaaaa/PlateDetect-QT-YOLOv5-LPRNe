@@ -62,7 +62,7 @@
      <item>
       <widget class="QPushButton" name="ImageDetectButton">
        <property name="text">
-        <string>本地图片识别车牌</string>
+        <string> Local Image Recognition</string>
        </property>
       </widget>
      </item>
@@ -82,7 +82,7 @@
      <item>
       <widget class="QPushButton" name="VideoDetectButton">
        <property name="text">
-        <string>本地视频识别车牌</string>
+        <string> Local Video Recognition</string>
        </property>
       </widget>
      </item>
@@ -102,7 +102,7 @@
      <item>
       <widget class="QPushButton" name="RealTimeDetectButton">
        <property name="text">
-        <string>摄像头实时检测车牌</string>
+        <string>Real-Time Camera Recognition</string>
        </property>
       </widget>
      </item>

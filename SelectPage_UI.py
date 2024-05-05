@@ -90,8 +90,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.ImageDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u56fe\u7247\u8bc6\u522b\u8f66\u724c", None))
-        self.VideoDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u89c6\u9891\u8bc6\u522b\u8f66\u724c", None))
-        self.RealTimeDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u6444\u50cf\u5934\u5b9e\u65f6\u68c0\u6d4b\u8f66\u724c", None))
+        self.ImageDetectButton.setText(QCoreApplication.translate("MainWindow", u" Local Image Recognition", None))
+        self.VideoDetectButton.setText(QCoreApplication.translate("MainWindow", u" Local Video Recognition", None))
+        self.RealTimeDetectButton.setText(QCoreApplication.translate("MainWindow", u"Real-Time Camera Recognition", None))
     # retranslateUi
 

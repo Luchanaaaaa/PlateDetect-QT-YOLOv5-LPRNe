@@ -130,7 +130,7 @@ class Ui_MainWindow(object):
         self.MainDisplay.setAlignment(Qt.AlignCenter)
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(890, 90, 351, 471))
+        self.layoutWidget.setGeometry(QRect(890, 90, 364, 471))
         self.verticalLayout_8 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
@@ -273,26 +273,26 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.ImageDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u56fe\u7247\u8bc6\u522b\u8f66\u724c", None))
-        self.VideoDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u672c\u5730\u89c6\u9891\u8bc6\u522b\u8f66\u724c", None))
-        self.RealTimeDetectButton.setText(QCoreApplication.translate("MainWindow", u"\u6444\u50cf\u5934\u5b9e\u65f6\u68c0\u6d4b\u8f66\u724c", None))
-        self.SaveResultButton.setText(QCoreApplication.translate("MainWindow", u"\u50a8\u5b58\u8bc6\u522b\u7ed3\u679c", None))
-        self.SignOutButton.setText(QCoreApplication.translate("MainWindow", u"\u9000\u51fa\u767b\u5165", None))
-        self.label_title.setText(QCoreApplication.translate("MainWindow", u"\u57fa\u4e8eYOLOv5 & LPRNet\u7684\u8f66\u724c\u68c0\u6d4b\u7cfb\u7edf", None))
+        self.ImageDetectButton.setText(QCoreApplication.translate("MainWindow", u"Local Image Recognition", None))
+        self.VideoDetectButton.setText(QCoreApplication.translate("MainWindow", u" Local Video Recognition", None))
+        self.RealTimeDetectButton.setText(QCoreApplication.translate("MainWindow", u" Camera Recognition", None))
+        self.SaveResultButton.setText(QCoreApplication.translate("MainWindow", u"Save Recognition Results", None))
+        self.SignOutButton.setText(QCoreApplication.translate("MainWindow", u"Log Out", None))
+        self.label_title.setText(QCoreApplication.translate("MainWindow", u"License Plate Detection and Recognition using YOLOv5 & LPRNet", None))
         self.MainDisplay.setText("")
         self.ZoomDisplay.setText("")
-        self.label_char.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u8bc6\u522b\u8f66\u724c\uff1a</span></p></body></html>", None))
+        self.label_char.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>License Plate Number : </p></body></html>", None))
         self.label_plate_str.setText(QCoreApplication.translate("MainWindow", u"B 126 NTB", None))
         ___qtablewidgetitem = self.DataTable.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6\u540d", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Filename", None));
         ___qtablewidgetitem1 = self.DataTable.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u65f6\u95f4\u6233", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Timestamp", None));
         ___qtablewidgetitem2 = self.DataTable.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u8f66\u724c\u5750\u6807", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"License Plate Coordinates", None));
         ___qtablewidgetitem3 = self.DataTable.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u7f6e\u4fe1\u5ea6", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Confidence", None));
         ___qtablewidgetitem4 = self.DataTable.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u8f66\u724c\u53f7\u7801", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"License Plate Number", None));
         ___qtablewidgetitem5 = self.DataTable.verticalHeaderItem(0)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"0", None));
         ___qtablewidgetitem6 = self.DataTable.verticalHeaderItem(1)

@@ -54,7 +54,7 @@
        <item>
         <widget class="QPushButton" name="ImageDetectButton">
          <property name="text">
-          <string>本地图片识别车牌</string>
+          <string>Local Image Recognition</string>
          </property>
         </widget>
        </item>
@@ -74,7 +74,7 @@
        <item>
         <widget class="QPushButton" name="VideoDetectButton">
          <property name="text">
-          <string>本地视频识别车牌</string>
+          <string> Local Video Recognition</string>
          </property>
         </widget>
        </item>
@@ -94,7 +94,7 @@
        <item>
         <widget class="QPushButton" name="RealTimeDetectButton">
          <property name="text">
-          <string>摄像头实时检测车牌</string>
+          <string> Camera Recognition</string>
          </property>
         </widget>
        </item>
@@ -114,7 +114,7 @@
        <item>
         <widget class="QPushButton" name="SaveResultButton">
          <property name="text">
-          <string>储存识别结果</string>
+          <string>Save Recognition Results</string>
          </property>
         </widget>
        </item>
@@ -134,7 +134,7 @@
        <item>
         <widget class="QPushButton" name="SignOutButton">
          <property name="text">
-          <string>退出登入</string>
+          <string>Log Out</string>
          </property>
         </widget>
        </item>
@@ -182,7 +182,7 @@
         </font>
        </property>
        <property name="text">
-        <string>基于YOLOv5 &amp; LPRNet的车牌检测系统</string>
+        <string>License Plate Detection and Recognition using YOLOv5 &amp; LPRNet</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -248,7 +248,7 @@
      <rect>
       <x>890</x>
       <y>90</y>
-      <width>351</width>
+      <width>364</width>
       <height>471</height>
      </rect>
     </property>
@@ -310,7 +310,7 @@
           </font>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;识别车牌：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;License Plate Number : &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -429,7 +429,7 @@
     <row/>
     <column>
      <property name="text">
-      <string>文件名</string>
+      <string>Filename</string>
      </property>
      <property name="font">
       <font>
@@ -448,7 +448,7 @@
     </column>
     <column>
      <property name="text">
-      <string>时间戳</string>
+      <string>Timestamp</string>
      </property>
      <property name="font">
       <font>
@@ -460,7 +460,7 @@
     </column>
     <column>
      <property name="text">
-      <string>车牌坐标</string>
+      <string>License Plate Coordinates</string>
      </property>
      <property name="font">
       <font>
@@ -472,7 +472,7 @@
     </column>
     <column>
      <property name="text">
-      <string>置信度</string>
+      <string>Confidence</string>
      </property>
      <property name="font">
       <font>
@@ -483,7 +483,7 @@
     </column>
     <column>
      <property name="text">
-      <string>车牌号码</string>
+      <string>License Plate Number</string>
      </property>
      <property name="font">
       <font>
