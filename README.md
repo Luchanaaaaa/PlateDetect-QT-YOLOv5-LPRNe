@@ -9,6 +9,8 @@ This is a license plate recognition application based on PySide6 and deep learni
 - **Real-time Recognition**: Users can turn on the camera, and the system will recognize and display license plate numbers in real-time.
 - **Data Logging**: Recognition results can be logged and saved to a CSV file.
 - **User Management**: Supports user registration, login, and auto-login functionality.
+![image](https://github.com/Luchanaaaaa/PlateDetect-QT-YOLOv5-LPRNe/assets/53888060/7248dfa1-840a-4456-828f-7080cb89eb22)
+![image](https://github.com/Luchanaaaaa/PlateDetect-QT-YOLOv5-LPRNe/assets/53888060/b49474c4-3a24-4a0a-94fb-2e2736d2434a)
 
 ## Technology Stack
 
@@ -28,12 +30,16 @@ This is a license plate recognition application based on PySide6 and deep learni
 ''' python main.py '''
 
 ## Usage
+![image](https://github.com/Luchanaaaaa/PlateDetect-QT-YOLOv5-LPRNe/assets/53888060/0fdffc32-1b21-45bb-9835-a5ecfe207ef4)
 
 - Upon starting the application, users need to register or log in first.
 - After logging in, choose the recognition mode (Image, Video, Real-time).
 - For images and videos, upload the files using the file dialog.
 - Real-time recognition will automatically enable the camera.
 - Recognition results will be displayed on the main interface, with an option to save the results.
+![image](https://github.com/Luchanaaaaa/PlateDetect-QT-YOLOv5-LPRNe/assets/53888060/1872b13c-664e-4d33-b910-6b89855fe8f4)
+
+
 
 ## File Structure
 
