@@ -21,7 +21,7 @@ from datetime import datetime
 
 class MainWindow(QMainWindow):
 
-    # 从视频捕获循环中更新 GUI，可能会导致程序崩溃或不稳定, 所以创建一个信号来发送处理过的帧
+    # To update the GUI from the video capture loop, which may cause crashes or instability, create a signal to send the processed frame
     frame_processed = Signal(QImage)
     update_table_signal = Signal(tuple)
 
@@ -42,13 +42,13 @@ class MainWindow(QMainWindow):
         self.yolo_detector = YOLOv5Detector(weights='weights/YOLOv5/weight/best.pt', imgsz=640, conf_thres=0.5, iou_thres=0.5, device='cpu')
         self.lprnet_detector = Recognizer(
             model_file='weights/LPRnet/best_model_011_0.9393.pth',
-            net_type='LPRNet',  # 模型类型
-            class_name='',  # 车牌字符表
-            use_detector=False,  # 您已经使用 YOLO 进行车牌检测
-            input_size=(94, 24),  # 模型输入尺寸
-            alignment=True,  # 是否进行车牌矫正
-            export=False,  # 已经导出 ONNX，不需要再次导出
-            device='cpu'  # 使用 CPU 进行推理
+            net_type='LPRNet',  # Model type
+            class_name='',  #  License plate character table
+            use_detector=False,
+            input_size=(94, 24),  # Model input size
+            alignment=True,  #  Whether to align the license plate
+            export=False,
+            device='cpu'  #  Use CPU for inference
         )
         ######################################################################
 
@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
             self.recogUi.RealTimeDetectButton.clicked.connect(self.detectRealTime)
             self.recogUi.SaveResultButton.clicked.connect(self.saveButtonClicked)
             self.recogUi.SignOutButton.clicked.connect(self.switchToLogIn)
-    ############Upate Table##########
+    ############Update Table##########
     def add_row_to_table(self, data):
         filename, timestamp, bbox, confidence, plate_text = data
         row_count = self.recogUi.DataTable.rowCount()
@@ -92,46 +92,46 @@ class MainWindow(QMainWindow):
         self.recogUi.DataTable.setItem(row_count, 2, QTableWidgetItem(str(bbox)))  # 转换bbox为字符串
         self.recogUi.DataTable.setItem(row_count, 3, QTableWidgetItem(str(confidence)))
         self.recogUi.DataTable.setItem(row_count, 4, QTableWidgetItem(plate_text))
-        # 自动滚动到最新的行
+        # Automatically scroll to the newest row
         self.recogUi.DataTable.scrollToBottom()
     #################################
     def saveButtonClicked(self):
-        if self.recogUi.SaveResultButton.text() == "开始记录数据":
-            self.recogUi.SaveResultButton.setText("储存识别结果")
+        if self.recogUi.SaveResultButton.text() == "Start Recording Data":
+            self.recogUi.SaveResultButton.setText("Save Recognition Results")
             self.start_recording_data()
         else:
-            self.recogUi.SaveResultButton.setText("开始记录数据")
+            self.recogUi.SaveResultButton.setText("Start Recording Data")
             self.save_data_to_csv()
 
     def start_recording_data(self):
-        # 开始记录数据
+        # Start recording data
         self.recording = True
-        self.data = []  # 清空之前的数据
+        self.data = []  # Clear previous data
 
     def record_data(self, filename, bbox, confidence, plate_text):
-        # 如果正在记录，将数据添加到列表
+        #  If recording, add data to the list
         if self.isRecording:
-            # 将bbox和confidence转换为标准Python数据类型
-            bbox = [int(coord) for coord in bbox]  # 如果bbox是tensor，确保转换为int
-            confidence = float(confidence)  # 确保confidence是float
+            # Convert bbox and confidence to standard Python data types
+            bbox = [int(coord) for coord in bbox]  # If bbox is a tensor, ensure it is converted to int
+            confidence = float(confidence)  # Ensure confidence is float
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             self.data.append((filename, timestamp, *bbox, confidence, plate_text))
             self.update_table_signal.emit((filename, timestamp, bbox, confidence, plate_text))
 
 
     def save_data_to_csv(self):
-        # 结束记录数据并保存到CSV
+        # End data recording and save to CSV
         self.recording = False
         directory = 'results'
         date_str = datetime.now().strftime('%Y-%m-%d')
-        filename = f'recognition_results_{date_str}.csv'  # 设置文件名，加上今天的日期
+        filename = f'recognition_results_{date_str}.csv'  # Set filename, including today's date
         path = os.path.join(directory, filename)
 
         if not os.path.exists(directory):
             os.makedirs(directory)
             print(f"目录 {directory} 不存在，已创建。")
 
-        # 检查是否有数据需要保存
+        #  Check if there is data to save
         if self.data:
             with open(path, 'a', newline='') as file:
                 writer = csv.writer(file)
@@ -146,13 +146,13 @@ class MainWindow(QMainWindow):
         x1, y1, x2, y2 = map(int, bbox)
         plate_image = image[y1:y2, x1:x2]
 
-        # 将裁剪的车牌图像转换为 QImage
+        # Convert the cropped license plate image to QImage
         plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2RGB)
         height, width, channel = plate_image.shape
         bytesPerLine = 3 * width
         qImg_plate = QImage(plate_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
-        # 将 QImage 转换为 QPixmap 并展示在 ZoomDisplay QLabel 中
+        # Convert QImage to QPixmap and display in ZoomDisplay QLabel
         pixmap_plate = QPixmap.fromImage(qImg_plate)
         self.recogUi.ZoomDisplay.setPixmap(pixmap_plate.scaled(
             self.recogUi.ZoomDisplay.width(),
@@ -162,12 +162,12 @@ class MainWindow(QMainWindow):
 
         plate_image = image[y1:y2, x1:x2]
 
-        # 使用 LPRNet 进行车牌识别
+        # Use LPRNet for license plate recognition
         recognition_result = self.lprnet_detector.plates_recognize(plate_image)
         recognized_plate = recognition_result['plates'][0] if recognition_result['plates'] else "未识别"
 
-        # 打印识别结果
-        print("识别的车牌号码是: ", recognized_plate)
+        # Print recognition result
+        print("Recognized license plate number is: ", recognized_plate)
 
 
         self.recogUi.label_plate_str.setText(recognized_plate)
@@ -183,7 +183,7 @@ class MainWindow(QMainWindow):
 
     @Slot(QImage)
     def updateMainDisplay(self, qImg):
-        # 在 MainDisplay 上显示 QImage
+        # Display QImage on MainDisplay
         pixmap = QPixmap.fromImage(qImg)
         self.recogUi.MainDisplay.setPixmap(pixmap.scaled(
             self.recogUi.MainDisplay.width(),
@@ -198,10 +198,10 @@ class MainWindow(QMainWindow):
                 return key
         return None
     def process_frame(self, image, filename):
-        # 执行推理
+        # Perform inference
         dets = self.yolo_detector.detect(image)
         print("dets = "+str(dets))
-        # 绘制检测结果到图像上
+        # Draw detection results on the image
         # cls: class index
         for *xyxy, conf, cls in dets:
             print(f"Class index (cls): {cls}")
@@ -232,35 +232,35 @@ class MainWindow(QMainWindow):
         self.stopCapture()
         self.isCapturing = True
 
-        video_path, _ = QFileDialog.getOpenFileName(self, '选择视频', '', '视频文件(*.mp4 *.avi)')
+        video_path, _ = QFileDialog.getOpenFileName(self, 'Select Video', '', 'Video files(*.mp4 *.avi)')
         if video_path:
             if self.currentUi != self.recogUi:
                 self.switchToRecog()
             self.recogUi.DataTable.setRowCount(0)
             cap = cv2.VideoCapture(video_path)
             if not cap.isOpened():
-                QMessageBox.warning(self, 'Warning', '无法打开视频文件')
+                QMessageBox.warning(self, 'Warning', 'Cannot open video file')
                 return
 
             while self.isCapturing:
                 ret, frame = cap.read()
                 if not ret:
                     self.stopCapture()
-                    break  # 视频结束或读取错误
+                    break  # Video ended or read error
 
-                # 处理帧
+                # Process frame
                 processed_frame = self.process_frame(frame, video_path)
 
-                # 转换颜色空间以适应 QPixmap
+                # Convert color space to fit QPixmap
                 processed_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
                 height, width, channel = processed_frame.shape
                 bytesPerLine = 3 * width
                 qImg = QImage(processed_frame.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
-                # 通过信号发送处理过的 QImage
+                #  Send processed QImage through signal
                 self.frame_processed.emit(qImg)
 
-                # 控制视频播放速度
+                # Control video playback speed
                 cv2.waitKey(int(1000 / cap.get(cv2.CAP_PROP_FPS)))
 
             cap.release()
@@ -274,7 +274,7 @@ class MainWindow(QMainWindow):
             self.switchToRecog()
         self.recogUi.DataTable.setRowCount(0)
 
-        cap = cv2.VideoCapture(0)  # 打开摄像头
+        cap = cv2.VideoCapture(0)  # Open camera
         if not cap.isOpened():
             print("Error: Could not open video device.")
             return
@@ -286,19 +286,19 @@ class MainWindow(QMainWindow):
                 self.stopCapture()
                 break
 
-            # 处理帧
+            # Process frame
             processed_frame = self.process_frame(frame, 'Webcam')
 
-            # 转换颜色空间以适应 QPixmap
+            # Convert color space to fit QPixmap
             processed_frame = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
             height, width, channel = processed_frame.shape
             bytesPerLine = 3 * width
             qImg = QImage(processed_frame.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
-            # 通过信号发送处理过的 QImage
+            # Send processed QImage through signal
             self.frame_processed.emit(qImg)
 
-            # 按 'q' 退出循环
+            # Press 'q' to exit loop
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.stopCapture()
                 break
@@ -310,7 +310,7 @@ class MainWindow(QMainWindow):
         # Stop previous capture
         self.stopCapture()
 
-        img_path, _ = QFileDialog.getOpenFileName(self, '选择图片', '', '图片文件(*.jpg *.png *.jpeg *.bmp)')
+        img_path, _ = QFileDialog.getOpenFileName(self, 'Select Image', '', 'Image files(*.jpg *.png *.jpeg *.bmp)')
         if img_path:
             if self.currentUi != self.recogUi:
                 self.switchToRecog()
@@ -319,7 +319,7 @@ class MainWindow(QMainWindow):
             image = cv2.imread(img_path)
             processed_image = self.process_frame(image, img_path)
 
-            # 转换颜色空间以适应 QPixmap
+            # Convert color space to fit QPixmap
             processed_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
             height, width, channel = processed_image.shape
             bytesPerLine = 3 * width
@@ -343,13 +343,13 @@ class MainWindow(QMainWindow):
         password = self.logInUi.PassWordInputBox.toPlainText()
 
         if (username == '') or (password == ''):
-            QMessageBox.warning(self, 'Warning', '用户名或密码不能为空')
+            QMessageBox.warning(self, 'Warning', 'Username or password cannot be empty')
             return
         if not checkUserExists(username):
-            QMessageBox.warning(self, 'Warning', '用户不存在')
+            QMessageBox.warning(self, 'Warning', 'User does not exist')
             return
         if not checkLogin(username, password):
-            QMessageBox.warning(self, 'Warning', '密码错误')
+            QMessageBox.warning(self, 'Warning', 'Incorrect password')
             return
         if self.logInUi.AutoLogInCheckBox.isChecked():
             generateAndStoreToken(username)
@@ -361,15 +361,15 @@ class MainWindow(QMainWindow):
         password_confirm = self.signUpUi.PassWordInputBox_Confirm.toPlainText()
 
         if password != password_confirm:
-            QMessageBox.warning(self, 'Warning', '两次输入的密码不一致')
+            QMessageBox.warning(self, 'Warning', 'Passwords do not match')
             return
 
         if checkUserExists(username):
-            QMessageBox.warning(self, 'Warning', '用户名已存在')
+            QMessageBox.warning(self, 'Warning', 'Username already exists')
             return
 
         addNewUser(username, password)
-        QMessageBox.information(self, 'Info', '注册成功')
+        QMessageBox.information(self, 'Info', 'Registration successful')
         self.switchToLogIn()
 
     ####################################################

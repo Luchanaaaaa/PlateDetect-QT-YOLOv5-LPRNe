@@ -23,8 +23,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="plainText">
+     <string/>
+    </property>
     <property name="placeholderText">
-     <string>设置用户名</string>
+     <string>Username</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="PassWordInputBox">
@@ -37,7 +40,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>设置的密码</string>
+     <string>Password</string>
     </property>
    </widget>
    <widget class="QPushButton" name="SignUpButton">
@@ -50,7 +53,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>注册</string>
+     <string>Register</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="PassWordInputBox_Confirm">
@@ -63,7 +66,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>请重复设置的密码</string>
+     <string>Confirm Password</string>
     </property>
    </widget>
    <widget class="QLabel" name="BackGroundLabel">
@@ -102,7 +105,7 @@ border-image: url(:/login/icons/sign.png);
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>resourse/SignUpLogIn.png</pixmap>
+     <pixmap>resourse/background.webp</pixmap>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

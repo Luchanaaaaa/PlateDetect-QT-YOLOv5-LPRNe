@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         self.BackGroundLabel.setStyleSheet(u"QLabel{\n"
 "border-image: url(:/login/icons/sign.png);\n"
 "}")
-        self.BackGroundLabel.setPixmap(QPixmap(u"resourse/SignUpLogIn.png"))
+        self.BackGroundLabel.setPixmap(QPixmap(u"resourse/background.webp"))
         self.BackGroundLabel.setAlignment(Qt.AlignCenter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -72,10 +72,11 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.UserNameInputBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e\u7528\u6237\u540d", None))
-        self.PassWordInputBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e\u7684\u5bc6\u7801", None))
-        self.SignUpButton.setText(QCoreApplication.translate("MainWindow", u"\u6ce8\u518c", None))
-        self.PassWordInputBox_Confirm.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u8bf7\u91cd\u590d\u8bbe\u7f6e\u7684\u5bc6\u7801", None))
+        self.UserNameInputBox.setPlainText("")
+        self.UserNameInputBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.PassWordInputBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Password", None))
+        self.SignUpButton.setText(QCoreApplication.translate("MainWindow", u"Register", None))
+        self.PassWordInputBox_Confirm.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Confirm Password", None))
 #if QT_CONFIG(tooltip)
         self.BackGroundLabel.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u601d\u7eea\u65e0\u9650</p><p>CSDN\uff1a<a href=\"htps:wuxian.blog.csdn.net\"><span style=\" text-decoration: underline; color:#0000ff;\">wuxian.blog.csdn.net</span></a></p><p>B\u7ad9\uff1a<a href=\"https://space.bilibili.com/456667721\"><span style=\" text-decoration: underline; color:#0000ff;\">\u601d\u7eea\u4ea6\u65e0\u9650</span></a></p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
